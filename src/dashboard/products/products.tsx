@@ -1,12 +1,13 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
+import AddCircleIcon from "@mui/icons-material/AddCircle"
 
 export default function Product() {
-    const [products, setProduct] = useState([])
+    const [products, setProduct] = useState([] as any)
     useEffect(() => {
         fetch("https://jsonplaceholder.typicode.com/users?_limit=12")
             .then(res => res.json())
@@ -75,11 +76,30 @@ export default function Product() {
                 <Sidenav/>
                 <Box component={"main"} sx={{ flexGrow: 1, p: 3, mt: 8 }}>
                     <Box m="20px">
+                        <Grid container justifyContent="center">
+                            <Typography variant="h4" component="div">
+                                Products
+                            </Typography>
+                        </Grid>
                         <Box
                             m="40px 0 0 0"
                             height="75vh"
                             display={'contents'}
                         >
+                            <Box height={10}/>
+                            <Stack spacing={2} direction={"row"} className="my-2 mb-2">
+                                <Autocomplete disablePortal
+                                id="combo-search"
+                                options={products}
+                                sx={{ width: 300 }}
+                                getOptionLabel={(products : any) => products.name}
+                                renderInput={(params) => (<TextField {...params} size="small" label="Search"/>)}/>
+                                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
+                                <Button variant="contained" endIcon={<AddCircleIcon/>}>
+                                    Add
+                                </Button>
+                            </Stack>
+                            <Box height={10}/>
                             <DataGrid rows={products} columns={columns} sx={{ margin: "auto" }}/>
                         </Box>
                     </Box>
