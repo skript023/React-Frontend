@@ -7,6 +7,14 @@ import AddCircleIcon from "@mui/icons-material/AddCircle"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 
+// {
+//     "lookup":
+//     {"0":true,"3":true},
+//     "data":[
+//         {"index":0,"dataIndex":0},
+//         {"index":3,"dataIndex":3}
+//     ]
+// }
 export default function Product() {
     const [products, setProduct] = useState([] as any)
     useEffect(() => {
@@ -88,8 +96,11 @@ export default function Product() {
     ];
 
     const options = {
-        onRowsDelete: (rowsDeleted: any, newTableData : any[]) => {
-            console.log(`${rowsDeleted}${newTableData.filter(item => products.includes(item))}`)
+        onRowsDelete: (rowsDeleted: any) => {
+            JSON.stringify(rowsDeleted)
+            rowsDeleted.data.map((data : any) => {
+                console.log(`${products[data.index].name}`)
+            })
         },
     };
 
