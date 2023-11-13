@@ -59,9 +59,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Navbar({open, callback} : any) 
 {
+	const anchorRef = React.useRef<HTMLElement>();
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-	React.useState<null | HTMLElement>(null);
+	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
 	const isMenuOpen = Boolean(anchorEl);
 	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -86,7 +86,7 @@ export default function Navbar({open, callback} : any)
 	const menuId = 'primary-search-account-menu';
 	const renderMenu = (
 	<Menu
-		anchorEl={anchorEl}
+		anchorEl={anchorRef?.current}
 		anchorOrigin={{
 		vertical: 'top',
 		horizontal: 'right',
@@ -163,91 +163,92 @@ export default function Navbar({open, callback} : any)
   
   const AppBar = styled(MuiAppBar, {
 	shouldForwardProp: (prop) => prop !== 'open',
-  })<AppBarProps>(({ theme, open }) => ({
-	zIndex: theme.zIndex.drawer + 1,
-	transition: theme.transitions.create(['width', 'margin'], {
-	  easing: theme.transitions.easing.sharp,
-	  duration: theme.transitions.duration.leavingScreen,
-	}),
-	...(open && {
-	  marginLeft: drawerWidth,
-	  width: `calc(100% - ${drawerWidth}px)`,
-	  transition: theme.transitions.create(['width', 'margin'], {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.enteringScreen,
-	  }),
-	}),
-  }));
+	})<AppBarProps>(({ theme, open }) => ({
+			zIndex: theme.zIndex.drawer + 1,
+			transition: theme.transitions.create(['width', 'margin'], {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.leavingScreen,
+		}),
+		...(open && {
+			marginLeft: drawerWidth,
+			width: `calc(100% - ${drawerWidth}px)`,
+			transition: theme.transitions.create(['width', 'margin'], {
+				easing: theme.transitions.easing.sharp,
+				duration: theme.transitions.duration.enteringScreen,
+			}),
+		}),
+	}));
 
-  return (
-	<Box sx={{ flexGrow: 1 }}>
-		<AppBar position="fixed" open={open}>
-			<Toolbar>
-				<IconButton
-					color="inherit"
-					aria-label="open drawer"
-					onClick={callback}
-					edge="start"
-					sx={{
-					marginRight: 5,
-					...(open && { display: 'none' }),
-					}}
-				>
-					<MenuIcon />
-				</IconButton>
-				<Search>
-					<SearchIconWrapper>
-						<SearchIcon />
-					</SearchIconWrapper>
-					<StyledInputBase
-					placeholder="Search…"
-					inputProps={{ 'aria-label': 'search' }}
-					/>
-				</Search>
-				<Box sx={{ flexGrow: 1 }} />
-				<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-					<IconButton size="large" aria-label="show 4 new mails" color="inherit">
-						<Badge badgeContent={4} color="error">
-							<MailIcon />
-						</Badge>
-					</IconButton>
+  	return (
+		<Box sx={{ flexGrow: 1 }}>
+			<AppBar position="fixed" open={open}>
+				<Toolbar>
 					<IconButton
-					size="large"
-					aria-label="show 17 new notifications"
-					color="inherit"
+						color="inherit"
+						aria-label="open drawer"
+						onClick={callback}
+						edge="start"
+						sx={{
+						marginRight: 5,
+						...(open && { display: 'none' }),
+						}}
 					>
-						<Badge badgeContent={17} color="error">
-							<NotificationsIcon />
-						</Badge>
+						<MenuIcon />
 					</IconButton>
-					<IconButton
-					size="large"
-					edge="end"
-					aria-label="account of current user"
-					aria-controls={menuId}
-					aria-haspopup="true"
-					onClick={handleProfileMenuOpen}
-					color="inherit"
-					>
-						<AccountCircle />
-					</IconButton>
-				</Box>
-				<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-					<IconButton
-					size="large"
-					aria-label="show more"
-					aria-controls={mobileMenuId}
-					aria-haspopup="true"
-					onClick={handleMobileMenuOpen}
-					color="inherit"
-					>
-						<MoreIcon />
-					</IconButton>
-				</Box>
-			</Toolbar>
-		</AppBar>
-		{renderMobileMenu}
-		{renderMenu}
-	</Box>
-  );
+					<Search>
+						<SearchIconWrapper>
+							<SearchIcon />
+						</SearchIconWrapper>
+						<StyledInputBase
+						placeholder="Search…"
+						inputProps={{ 'aria-label': 'search' }}
+						/>
+					</Search>
+					<Box sx={{ flexGrow: 1 }} />
+					<Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+						<IconButton size="large" aria-label="show 4 new mails" color="inherit">
+							<Badge badgeContent={4} color="error">
+								<MailIcon />
+							</Badge>
+						</IconButton>
+						<IconButton
+						size="large"
+						aria-label="show 17 new notifications"
+						color="inherit"
+						>
+							<Badge badgeContent={17} color="error">
+								<NotificationsIcon />
+							</Badge>
+						</IconButton>
+						<IconButton
+						size="large"
+						edge="end"
+						aria-label="account of current user"
+						id={menuId}
+						aria-controls={menuId}
+						aria-haspopup="true"
+						onClick={handleProfileMenuOpen}
+						color="inherit"
+						>
+							<AccountCircle />
+						</IconButton>
+					</Box>
+					<Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+						<IconButton
+						size="large"
+						aria-label="show more"
+						aria-controls={mobileMenuId}
+						aria-haspopup="true"
+						onClick={handleMobileMenuOpen}
+						color="inherit"
+						>
+							<MoreIcon />
+						</IconButton>
+					</Box>
+				</Toolbar>
+			</AppBar>
+			{renderMobileMenu}
+			{renderMenu}
+		</Box>
+  	);
 }

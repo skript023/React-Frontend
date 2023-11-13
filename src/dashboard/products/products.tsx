@@ -1,11 +1,12 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Modal, Stack, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
-import {useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
+import AddProduct from "./add";
 
 // {
 //     "lookup":
@@ -15,7 +16,25 @@ import EditIcon from "@mui/icons-material/Edit"
 //         {"index":3,"dataIndex":3}
 //     ]
 // }
-export default function Product() {
+
+const style = {
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
+export default function Product() 
+{
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     const [products, setProduct] = useState([] as any)
     useEffect(() => {
         fetch("https://jsonplaceholder.typicode.com/users?_limit=12")
@@ -99,7 +118,7 @@ export default function Product() {
         onRowsDelete: (rowsDeleted: any) => {
             JSON.stringify(rowsDeleted)
             rowsDeleted.data.map((data : any) => {
-                console.log(`${products[data.index].name}`)
+                console.log(`${products[data.index].id}`)
             })
         },
     };
@@ -121,13 +140,23 @@ export default function Product() {
                             display={'contents'}
                         >
                             <Box height={10}/>
-                            <Button variant="contained" endIcon={<AddCircleIcon/>}>
+                            <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={handleOpen}>
                                 Add
                             </Button>
                             <Box height={10}/>
                             <MUIDataTable title={""} data={products} columns={columns} options={options}/>
                         </Box>
                     </Box>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <Box sx={style}>
+                        <AddProduct/>
+                        </Box>
+                    </Modal>
                 </Box>
             </Box>
         </Box>
