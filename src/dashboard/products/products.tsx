@@ -8,31 +8,12 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import AddProduct from "./add";
 import ProductModal from "./product_modal";
-
-// {
-//     "lookup":
-//     {"0":true,"3":true},
-//     "data":[
-//         {"index":0,"dataIndex":0},
-//         {"index":3,"dataIndex":3}
-//     ]
-// }
-
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+import EditProduct from "./edit";
 
 export default function Product() 
 {
     const [openAdd, setOpenAdd] = React.useState(false);
+    const [openEdit, setOpenEdit] = React.useState(false);
 
     const [products, setProduct] = useState([] as any)
     useEffect(() => {
@@ -45,6 +26,16 @@ export default function Product()
                 console.log(err.message);
         });
     }, []);
+
+    const handleEditClick = (index: number) => {
+        console.log("Edit clicked for column index:", index);
+        // Add your edit logic here using the index
+    };
+      
+    const handleDeleteClick = (index: number) => {
+        console.log("Delete clicked for column index:", index);
+        // Add your delete logic here using the index
+    };
     
     const columns = [
         { 
@@ -96,17 +87,17 @@ export default function Product()
             }
         },
         {
-            name: "action",
+            name: "id",
             label: "Action",
             options: {
                 filter: true,
                 sort: true,
-                customBodyRender: () => (
+                customBodyRender: (value: any, _tableMeta: any, _updateValue: any) => (
                     <Stack spacing={2} direction={"row"}>
                         <EditIcon style={{ fontSize: "20px", color: "blue", cursor: "pointer" }}
-                        onClick={() => {}}/>
+                        onClick={() => {handleEditClick(value); setOpenEdit(true)} }/>
                         <DeleteIcon style={{ fontSize: "20px", color: "darkred", cursor: "pointer" }}
-                        onClick={() => {}}/>
+                        onClick={() => handleDeleteClick(value) }/>
                     </Stack>
                 ),
             },
@@ -146,9 +137,8 @@ export default function Product()
                             <MUIDataTable title={""} data={products} columns={columns} options={options}/>
                         </Box>
                     </Box>
-                    <ProductModal open={openAdd} callback={() => setOpenAdd(false)} style={style}>
-                        <AddProduct/>
-                    </ProductModal>
+                    <ProductModal open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct/>}/>
+                    <ProductModal open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct/>}/>
                 </Box>
             </Box>
         </Box>
