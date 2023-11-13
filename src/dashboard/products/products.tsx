@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Modal, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import MUIDataTable from "mui-datatables";
 import React, {useEffect, useState} from 'react'
 import Sidenav from "../../navigation/sidebar";
@@ -7,6 +7,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle"
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
 import AddProduct from "./add";
+import ProductModal from "./product_modal";
 
 // {
 //     "lookup":
@@ -31,9 +32,7 @@ const style = {
 
 export default function Product() 
 {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [openAdd, setOpenAdd] = React.useState(false);
 
     const [products, setProduct] = useState([] as any)
     useEffect(() => {
@@ -140,23 +139,16 @@ export default function Product()
                             display={'contents'}
                         >
                             <Box height={10}/>
-                            <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={handleOpen}>
+                            <Button variant="contained" endIcon={<AddCircleIcon/>} onClick={() => setOpenAdd(true)}>
                                 Add
                             </Button>
                             <Box height={10}/>
                             <MUIDataTable title={""} data={products} columns={columns} options={options}/>
                         </Box>
                     </Box>
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
-                        <Box sx={style}>
+                    <ProductModal open={openAdd} callback={() => setOpenAdd(false)} style={style}>
                         <AddProduct/>
-                        </Box>
-                    </Modal>
+                    </ProductModal>
                 </Box>
             </Box>
         </Box>

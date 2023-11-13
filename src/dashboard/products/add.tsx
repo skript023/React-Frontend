@@ -89,7 +89,7 @@ export default function AddProduct()
                     </Grid>
                     <Box display="flex" justifyContent="center" mt="20px">
                         <Button type="submit" color="secondary" variant="contained">
-                            Login
+                            Add
                         </Button>
                     </Box>
                 </form>
