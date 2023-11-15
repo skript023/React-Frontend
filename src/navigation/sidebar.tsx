@@ -12,8 +12,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Navbar from './navbar';
 import { useNavigate } from 'react-router-dom';
 import { SidebarMenu } from './menu/sidebar_menu';
@@ -93,7 +91,7 @@ export default function Sidenav()
 				</DrawerHeader>
 				<Divider />
 				<List>
-				{SidebarMenu.map((menu, index) => (
+				{SidebarMenu.map((menu) => (
 					<ListItem key={menu.name} disablePadding sx={{ display: 'block' }} onClick={() => navigate(menu.route)}>
 					<ListItemButton
 						sx={{
@@ -109,7 +107,7 @@ export default function Sidenav()
 							justifyContent: 'center',
 						}}
 						>
-						{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+						{menu.icon}
 						</ListItemIcon>
 						<ListItemText primary={menu.name} sx={{ opacity: open ? 1 : 0 }} />
 					</ListItemButton>
