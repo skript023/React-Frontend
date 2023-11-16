@@ -6,18 +6,18 @@ import AddCircleIcon from "@mui/icons-material/AddCircle"
 
 import DeleteIcon from "@mui/icons-material/Delete"
 import EditIcon from "@mui/icons-material/Edit"
-import AddProduct from "./add";
-import EditProduct from "./edit";
 import Modals from "../../components/modal";
+import AddTask from "./add";
+import EditTask from "./edit";
 
-export default function Product() 
+export default function Task() 
 {
     const [openAdd, setOpenAdd] = React.useState(false);
     const [openEdit, setOpenEdit] = React.useState(false);
 
     const [products, setProduct] = useState([] as any)
     useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/users?_limit=12")
+        fetch("https://jsonplaceholder.typicode.com/todos?_limit=12")
             .then(res => res.json())
             .then(data => {
                 setProduct(data)
@@ -55,32 +55,24 @@ export default function Product()
             }
         },
         {
-            name: "phone",
-            label: "Phone Number",
+            name: "start_date",
+            label: "Start Date",
             options: {
                 filter: true,
                 sort: true,
             }
         },
         {
-            name: "email",
-            label: "Email",
+            name: "end_date",
+            label: "End Date",
             options: {
                 filter: true,
                 sort: true,
             }
         },
         {
-            name: "cost",
-            label: "Cost",
-            options: {
-                filter: true,
-                sort: true,
-            }
-        },
-        {
-            name: "date",
-            label: "Date",
+            name: "status",
+            label: "Status",
             options: {
                 filter: true,
                 sort: true,
@@ -137,8 +129,8 @@ export default function Product()
                             <MUIDataTable title={""} data={products} columns={columns} options={options}/>
                         </Box>
                     </Box>
-                    <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddProduct/>}/>
-                    <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditProduct/>}/>
+                    <Modals open={openAdd} callback={() => setOpenAdd(false)} children={<AddTask/>}/>
+                    <Modals open={openEdit} callback={() => setOpenEdit(false)} children={<EditTask/>}/>
                 </Box>
             </Box>
         </Box>

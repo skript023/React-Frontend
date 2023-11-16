@@ -1,6 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './dashboard/home'
 import Product from './dashboard/products/products'
+import Task from './dashboard/tasks/tasks'
+import Login from './login/login'
 
 function App() {
 
@@ -8,8 +10,10 @@ function App() {
 		<>
 			<BrowserRouter>
 				<Routes>
-					<Route path='/' element={<Home/>}/>
+					<Route path='/' element={<Login/>}/>
+					<Route path='/home' element={<Home/>}/>
 					<Route path='/products' element={< Product />}/>
+					<Route path='/activity' element={< Task />}/>
 					{/* <Route path='team' element={< Team title="Team" />}/>
 					<Route path='invoices' element={< Invoices title="Invoices" />}/>
 					<Route path='calendar' element={< Calendar title="Calendar" />}/>

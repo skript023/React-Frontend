@@ -12,7 +12,7 @@ const style = {
     p: 4,
 };
 
-export default function ProductModal({open, callback, children} : any)
+export default function Modals({open, callback, children} : any)
 {
     return (
         <Modal
